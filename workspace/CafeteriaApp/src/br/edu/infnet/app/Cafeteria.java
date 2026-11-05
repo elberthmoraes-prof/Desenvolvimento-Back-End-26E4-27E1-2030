@@ -85,6 +85,12 @@ public class Cafeteria {
 				exibirSobre();
 
 				break;
+				
+			case 5:
+
+				analisarPedidoTexto(in);
+				
+				break;
 
 			case 0:
 
@@ -121,6 +127,7 @@ public class Cafeteria {
 		System.out.println("2 - Exibir cardapio");
 		System.out.println("3 - Exibir resumo de vendas");
 		System.out.println("4 - Sobre o sistema");
+		System.out.println("5 - Analisar pedido em texto");
 		System.out.println("0 - Sair");
 		System.out.println();
 	}
@@ -417,5 +424,34 @@ public class Cafeteria {
 		System.out.println("Sistema operacional: " + System.getProperty("os.name"));
 
 		System.out.println("Diretorio atual: " + System.getProperty("user.dir"));
+	}
+	
+	public static void analisarPedidoTexto(Scanner tela){
+		
+		System.out.println("==== ANALISAR PEDIDO EM TEXTO ====");
+		
+		tela.nextLine();
+		
+		System.out.print("Informe o pedido: ");
+		
+		String pedido = tela.nextLine();
+		
+		if(pedido.isBlank()) {
+			System.err.println("Pedido não informado.");
+			return;
+		}
+		
+		String[] campos = pedido.split(";");
+
+		if(campos.length != 3) {
+			System.err.println("Formato de pedido inválido.");
+			return;
+		}
+		
+		System.out.println("Código: " + campos[0]);
+		
+		System.out.println("Quantidade: " + campos[1]);
+		
+		System.out.println("Nome: " + campos[2]);		
 	}
 }
