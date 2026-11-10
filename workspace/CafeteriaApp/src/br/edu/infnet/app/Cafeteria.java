@@ -397,18 +397,17 @@ public class Cafeteria {
 
 		System.out.println("===== RESUMO DE VENDAS =====");
 
-		System.out.println("Pedidos realizados: " + totalPedidos);
+		System.out.printf("%-23s: %5d%n", "Pedidos realizados", totalPedidos);
 
-		System.out.println("Cafes vendidos: " + totalCafes);
+		System.out.printf("%-23s: %5d%n", "Cafes vendidos", totalCafes);
 
-		System.out.println("Cappuccinos vendidos: " + totalCappuccinos);
+		System.out.printf("%-23s: %5d%n", "Cappuccinos vendidos", totalCappuccinos);
 
-		System.out.println("Paes de queijo vendidos: " + totalPaesQueijo);
+		System.out.printf("%-23s: %5d%n", "Paes de queijo vendidos", totalPaesQueijo);
 
-		System.out.println("Sanduiches vendidos: " + totalSanduiches);
+		System.out.printf("%-23s: %5d%n", "Sanduiches vendidos", totalSanduiches);
 
-		System.out.println("Total arrecadado: R$ " + totalVenda
-		);
+		System.out.printf("%-23s: R$ %.2f%n", "Total arrecadado", totalVenda);
 	}
 
 	/*
@@ -448,10 +447,60 @@ public class Cafeteria {
 			return;
 		}
 		
-		System.out.println("Código: " + campos[0]);
+		String codigo = normalizarCodigo(campos[0]);
+		
+		if(!codigoValido(codigo)) {
+			System.err.println("Código está inválido.");
+			return;
+		}
+		
+		System.out.println("Código: " + codigo);
 		
 		System.out.println("Quantidade: " + campos[1]);
 		
 		System.out.println("Nome: " + campos[2]);		
+	}
+	
+	public static String normalizarCodigo(String codigo) {
+		
+		String codigoNormalizado = codigo; 
+		
+		codigoNormalizado = codigoNormalizado.trim();
+		
+		codigoNormalizado = codigoNormalizado.toUpperCase();
+
+		return codigoNormalizado; // return codigo.trim().toUpperCase();
+	}
+	
+	public static boolean codigoValido(String codigo) {
+
+		if(codigo.length() != 7) {
+			return false;
+		}
+		
+		if(!Character.isLetter(codigo.charAt(0)) || codigo.charAt(0) < 'A' || codigo.charAt(0) > 'Z') {
+			return false;
+		}
+		if(!Character.isLetter(codigo.charAt(1)) || codigo.charAt(1) < 'A' || codigo.charAt(1) > 'Z') {
+			return false;
+		}
+		if(!Character.isLetter(codigo.charAt(2)) || codigo.charAt(2) < 'A' || codigo.charAt(2) > 'Z') {
+			return false;
+		}
+		
+		if(!Character.isDigit(codigo.charAt(3))) {
+			return false;
+		}
+		if(!Character.isDigit(codigo.charAt(4))) {
+			return false;
+		}
+		if(!Character.isDigit(codigo.charAt(5))) {
+			return false;
+		}
+		if(!Character.isDigit(codigo.charAt(6))) {
+			return false;
+		}
+
+		return true;		
 	}
 }
