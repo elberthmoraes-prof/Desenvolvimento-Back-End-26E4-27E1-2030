@@ -92,6 +92,11 @@ public class Cafeteria {
 				
 				break;
 
+			case 6:
+				
+				validarLoteCodigos();
+				
+				break;
 			case 0:
 
 				System.out.println("Encerrando a Cafeteria Java...");
@@ -128,6 +133,7 @@ public class Cafeteria {
 		System.out.println("3 - Exibir resumo de vendas");
 		System.out.println("4 - Sobre o sistema");
 		System.out.println("5 - Analisar pedido em texto");
+		System.out.println("6 - Validar lote de códigos");
 		System.out.println("0 - Sair");
 		System.out.println();
 	}
@@ -472,35 +478,59 @@ public class Cafeteria {
 		return codigoNormalizado; // return codigo.trim().toUpperCase();
 	}
 	
+	public static boolean[] codigoValido(String[] codigos) {
+		
+		boolean[] lista = new boolean[codigos.length];
+		
+		for(int i = 0; i < codigos.length; i++) {
+			
+			String codigo = normalizarCodigo(codigos[i]);
+			
+			lista[i] = codigoValido(codigo);
+		}
+		
+		return lista;
+	}
+
 	public static boolean codigoValido(String codigo) {
 
 		if(codigo.length() != 7) {
 			return false;
 		}
 		
-		if(!Character.isLetter(codigo.charAt(0)) || codigo.charAt(0) < 'A' || codigo.charAt(0) > 'Z') {
-			return false;
+		for(int i = 0; i < 3; i++) {
+			if(!Character.isLetter(codigo.charAt(i)) || codigo.charAt(i) < 'A' || codigo.charAt(i) > 'Z') {
+				return false;
+			}
 		}
-		if(!Character.isLetter(codigo.charAt(1)) || codigo.charAt(1) < 'A' || codigo.charAt(1) > 'Z') {
-			return false;
-		}
-		if(!Character.isLetter(codigo.charAt(2)) || codigo.charAt(2) < 'A' || codigo.charAt(2) > 'Z') {
-			return false;
-		}
-		
-		if(!Character.isDigit(codigo.charAt(3))) {
-			return false;
-		}
-		if(!Character.isDigit(codigo.charAt(4))) {
-			return false;
-		}
-		if(!Character.isDigit(codigo.charAt(5))) {
-			return false;
-		}
-		if(!Character.isDigit(codigo.charAt(6))) {
-			return false;
+
+		for(int i = 3; i < 7; i++) {
+			if(!Character.isDigit(codigo.charAt(i))) {
+				return false;
+			}
 		}
 
 		return true;		
 	}
+
+	public static void validarLoteCodigos() {
+		System.out.println("=== VALIDAR LOTE DE CÓDIGOS ===");
+		
+		String[] codigos = {"AbC1234   ", "elm2408", "AC9876", "   Fla1981", "THI0987"};
+
+		boolean[] resultados = codigoValido(codigos);
+		
+		for(int i = 0; i < resultados.length;i++) {
+					
+			boolean valido = resultados[i];
+			String codigo = normalizarCodigo(codigos[i]);
+			
+			if(valido) {
+				System.out.println("Código válido: " + codigo);
+			} else {
+				System.err.println("Informação inválida: " + codigo);
+			}
+		}		
+	}
+
 }
